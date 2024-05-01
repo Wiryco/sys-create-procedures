@@ -12,14 +12,12 @@ Antes de executar o algoritmo, certifique-se de atender aos seguintes requisitos
 
 1. Ter o Python instalado na versão mais recente. Caso não tenha, você pode baixar o Python em [python.org](https://www.python.org/downloads/).
 
-2. Instalar as bibliotecas necessárias através do pip. Caso você ainda não as tenha, utilize os seguintes comandos para instalar individualmente:
-
-```bash
-pip install pyodbc
-pip install os
-pip install time
-pip install sys
-```
+2. O usuário informado para autenticação no banco de dados deve possuir permissões adequadas para acessar as seguintes tabelas de sistema do SQL:
+   ```sql
+   GRANT SELECT ON SYS.SQL_MODULES TO seu_usuario;
+   GRANT SELECT ON SYS.OBJECTS TO seu_usuario;
+   GRANT SELECT ON SYS.SCHEMAS TO seu_usuario;
+   ```
 
 ## Instalação
 Para realizar a instalação, siga estas etapas:
@@ -38,6 +36,8 @@ pip install -r requirements.txt
 4. Execute o codigo principal python `sysCreateProceduresEnv.py`, que é o arquivo atualizo que usa as configurações definidar no `.env`, ou o `sysCreateProcedures.py` que realiza as perguntas das informações para o usuário:
 ```python
 python sysCreateProceduresEnv.py
+```
+```python
 python sysCreateProcedures.py
 ```
 
@@ -46,16 +46,8 @@ python sysCreateProcedures.py
 projeto/
 └── sysCreateProcedure.py
 └── sysCreateProcedureEnv.py
+└── requirements.txt
 └── .env
-```
-
-## Permissões no Banco de Dados
-O usuário informado para autenticação no banco de dados deve possuir permissões adequadas para acessar as seguintes tabelas de sistema do SQL:
-
-```sql
-GRANT SELECT ON SYS.SQL_MODULES TO seu_usuario;
-GRANT SELECT ON SYS.OBJECTS TO seu_usuario;
-GRANT SELECT ON SYS.SCHEMAS TO seu_usuario;
 ```
 
 ## Funcionamento
@@ -91,7 +83,7 @@ O algoritmo `sysCreateProcedures.py` é uma ferramenta útil para extrair e arma
 Esperamos que essa ferramenta seja útil para suas atividades de desenvolvimento e análise de banco de dados!
 
 ## Atualização
-Foi implementado uma nova versão do algoritmo que coleta as informações de conexão com o bando de dados direto do arquivo `.env`
+Foi implementado uma nova versão do algoritmo que coleta as informações de conexão com o bando de dados direto do arquivo `.env`. O script é o `sysCreateProceduresEnv.py`.
 
 ## Configuração do arquivo .env
 O arquivo `.env` é usado para armazenar variáveis de ambiente que o seu projeto python precisa para funcionar corretamente.
