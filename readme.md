@@ -1,4 +1,4 @@
-# Documentação - Cria arquivos de procedures
+# Documentação - Download de procedures
 
 ---
 
@@ -10,7 +10,7 @@ O algoritmo `sysCreateProcedures.py` é responsável por criar arquivos .sql con
 
 Antes de executar o algoritmo, certifique-se de atender aos seguintes requisitos:
 
-1. Ter o Python instalado na versão mais recente. Caso não tenha, você pode baixar o Python em [python.org](https://www.python.org/).
+1. Ter o Python instalado na versão mais recente. Caso não tenha, você pode baixar o Python em [python.org](https://www.python.org/downloads/).
 
 2. Instalar as bibliotecas necessárias através do pip. Caso você ainda não as tenha, utilize os seguintes comandos para instalar individualmente:
 
@@ -19,6 +19,26 @@ pip install pyodbc
 pip install os
 pip install time
 pip install sys
+```
+
+## Instalação
+Para realizar a instalação, siga estas etapas:
+1. Clone o repositório do GitHub:
+```bash
+git clone https://github.com/Wiryco/sys-create-procedures.git
+```
+2. Navegue até o diretório do projeto:
+```bash
+cd sus-create-procedures
+```
+3. Instale as dependências usando pip:
+```python
+pip install -r requirements.txt
+```
+4. Execute o codigo principal python `sysCreateProceduresEnv.py`, que é o arquivo atualizo que usa as configurações definidar no `.env`, ou o `sysCreateProcedures.py` que realiza as perguntas das informações para o usuário:
+```python
+python sysCreateProceduresEnv.py
+python sysCreateProcedures.py
 ```
 
 ## Estrutura do projeto
@@ -53,7 +73,14 @@ Para executar a ferramenta, siga os passos abaixo:
    - Senha do usuário.
    - Nome do banco de dados a ser acessado.
    - Pasta onde os arquivos .sql serão salvos.
-6. Com as informações de conexão fornecidas, o algoritmo se conectará ao banco de dados e extrairá todas as procedures usando o comando `sp_helptext`.
+6. Com as informações de conexão fornecidas, o algoritmo se conectará ao banco de dados e extrairá todas as procedures usando o comando `sp_helptext`. O script é o seguinte:
+   ```sql
+   SELECT ROW_NUMBER() OVER (ORDER BY B.NAME) SEQUENCIAL, CONCAT(C.NAME, '.', B.NAME) DS_OBJETO 
+   FROM SYS.SQL_MODULES A WITH(NOLOCK)
+   JOIN SYS.OBJECTS B WITH(NOLOCK) ON A.[OBJECT_ID] = B.[OBJECT_ID]
+   JOIN SYS.SCHEMAS C WITH(NOLOCK) ON B.[SCHEMA_ID] = C.[SCHEMA_ID]
+   WHERE B.[TYPE] = 'P'
+   ```
 7. As procedures serão salvas individualmente em arquivos .txt na pasta especificada pelo usuário.
 8. O algoritmo, então, executará um comando cmd para converter cada arquivo .txt em um arquivo .sql pronto para uso.
 9. Ao finalizar a criação dos arquivos .sql, a aplicação será encerrada e o usuário terá acesso a todos os códigos das procedures do banco de dados em arquivos separados.

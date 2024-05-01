@@ -70,10 +70,10 @@ class createFileProcedure():
         self.path += self.dataBase + '\\'
 
         if not os.path.exists(r'' + self.path):
-            os.mkdir(r'' + self.path)  
+            os.makedirs(r'' + self.path)  
 
         if not os.path.exists(r'' + self.path + 'ERRO\\'):
-            os.mkdir(r'' + self.path + 'ERRO\\')
+            os.makedirs(r'' + self.path + 'ERRO\\')
 
         _file_ERRO = open(r'' + self.path + 'ERRO\\LOG_ERRO.txt', 'w+', encoding="utf-8")
 
